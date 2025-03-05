@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.dao.ClientDAO;
 import org.example.dao.OrderDAO;
+import org.example.dao.ProductDAO;
 
 import static org.example.src.Enum.em;
 import static org.example.src.Enum.emf;
@@ -12,6 +13,8 @@ public class Main {
     public static void main(String[] args) {
         ClientDAO clientDAO = new ClientDAO();
         OrderDAO orderDAO = new OrderDAO();
+        ProductDAO productDAO = new ProductDAO();
+
         Scanner sc = new Scanner(System.in);
         try{
             emf = Persistence.createEntityManagerFactory("JPATest");
@@ -21,9 +24,11 @@ public class Main {
                     System.out.println("1: add client");
                     System.out.println("2: add random clients");
                     System.out.println("3: view clients");
-                    System.out.println("4: add order");  //delete client
-                    System.out.println("5: view orders");  //change client
-                    System.out.println("6: ");
+                    System.out.println("4: add product");
+                    System.out.println("5: add random products");
+                    System.out.println("6: view products");
+                    System.out.println("7: add order");
+                    System.out.println("8: view orders");
                     System.out.print("-> ");
 
                     String s = sc.nextLine();
@@ -38,15 +43,19 @@ public class Main {
                             clientDAO.viewClients();
                             break;
                         case "4":
-                            orderDAO.addOrder(sc);
-//                            deleteClient(sc);
+                            productDAO.addProduct(sc);
                             break;
                         case "5":
-                            orderDAO.viewOrders();
-//                            changeClient(sc);
+                            productDAO.insertRandomProducts(sc);
                             break;
                         case "6":
-
+                            productDAO.viewProducts();
+                            break;
+                        case "7":
+                            orderDAO.addOrder(sc);
+                            break;
+                        case "8":
+                            orderDAO.viewOrders();
                             break;
                         default:
                             return;
@@ -59,7 +68,7 @@ public class Main {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println("Hello world!");
+            System.out.println("End of program!");
         }
     }
 
