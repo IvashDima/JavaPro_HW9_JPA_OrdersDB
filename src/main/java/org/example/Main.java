@@ -1,19 +1,15 @@
 package org.example;
 
-import org.example.models.Client;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import org.example.dao.ClientDAO;
+import static org.example.src.Enum.em;
+import static org.example.src.Enum.emf;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    static EntityManagerFactory emf;
-    static EntityManager em;
-
     public static void main(String[] args) {
+        ClientDAO clientDAO = new ClientDAO();
+//        OrderDAO orderDAO = new OrderDAO();
         Scanner sc = new Scanner(System.in);
         try{
             emf = Persistence.createEntityManagerFactory("JPATest");
@@ -30,7 +26,7 @@ public class Main {
                     String s = sc.nextLine();
                     switch (s) {
                         case "1":
-                            addClient(sc);
+                            clientDAO.addClient(sc);
                             break;
                         case "2":
 //                            insertRandomClients(sc);
@@ -42,7 +38,7 @@ public class Main {
 //                            changeClient(sc);
                             break;
                         case "5":
-                            viewClients();
+                            clientDAO.viewClients();
                             break;
                         default:
                             return;
@@ -58,29 +54,5 @@ public class Main {
             System.out.println("Hello world!");
         }
     }
-    private static void addClient(Scanner sc) {
-        System.out.print("Enter client name: ");
-        String name = sc.nextLine();
-//        System.out.print("Enter client age: ");
-//        String sAge = sc.nextLine();
-//        int age = Integer.parseInt(sAge);
 
-        em.getTransaction().begin();
-        try {
-            Client c = new Client(name);
-            em.persist(c);
-            em.getTransaction().commit();
-
-            System.out.println(c.getId()); // HQL == JPQL
-        } catch (Exception ex) {
-            em.getTransaction().rollback();
-        }
-    }
-    private static void viewClients() {
-        Query query = em.createQuery("SELECT c FROM Client c", Client.class);
-        List<Client> list = (List<Client>) query.getResultList();
-
-        for (Client c : list)
-            System.out.println(c);
-    }
 }

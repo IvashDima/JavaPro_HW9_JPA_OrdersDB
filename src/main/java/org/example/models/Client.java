@@ -1,31 +1,38 @@
 package org.example.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Clients")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "myid")
+    @Column(name = "id")
     private long id;
 
-    @Column(nullable = false)
+    @Column(name = "client_name")
     private String name;
+
+    @Column(nullable = false)
+    private String phone;
+
+//    @OneToOne(mappedBy = "client")
+//    private Order order;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
 
     public Client() {
     }
 
-    public Client(String name) {
+    public Client(String name, String phone) {
         this.name = name;
+        this.phone = phone;
     }
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -36,8 +43,38 @@ public class Client {
         this.name = name;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+//    public void addOrder(Order order) {
+//        if ( ! orders.contains(order)) {
+//            orders.add(order);
+//            orders.setClient(this);
+//        }
+//    }
+    public Order getOrder(int index) {
+        return orders.get(index);
+    }
+    public void clearOrders() {
+        orders.clear();
+    }
+    public List<Order> getOrders() {
+        return orders;
+    }
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     @Override
     public String toString(){
-        return "Client{id="+id+", name='"+name+"'}";
+        return "Client{id="+id+", " +
+                "name='"+name+"', " +
+                "phone='"+phone+"'" +
+                "}";
     }
 }

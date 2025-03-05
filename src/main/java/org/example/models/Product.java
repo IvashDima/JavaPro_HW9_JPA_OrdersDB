@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "myid")
+    @Column(name = "id")
     private long id;
     @Column(nullable = false)
     private String name;
@@ -22,10 +22,6 @@ public class Product {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -45,6 +41,8 @@ public class Product {
     }
     @Override
     public String toString(){
-        return "Product{id="+id+", name='"+name+"', price="+price+"}";
+        return "Product{id="+id+", " +
+                "name='"+name+"', " +
+                "price="+price+"}";
     }
 }
