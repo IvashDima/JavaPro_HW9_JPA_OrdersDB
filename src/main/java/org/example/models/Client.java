@@ -16,7 +16,7 @@ public class Client {
     private String name;
 
     @Column(nullable = false)
-    private String phone;
+    private int phone;
 
 //    @OneToOne(mappedBy = "client")
 //    private Order order;
@@ -26,7 +26,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(String name, String phone) {
+    public Client(String name, int phone) {
         this.name = name;
         this.phone = phone;
     }
@@ -43,11 +43,11 @@ public class Client {
         this.name = name;
     }
 
-    public String getPhone() {
+    public int getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(int phone) {
         this.phone = phone;
     }
 

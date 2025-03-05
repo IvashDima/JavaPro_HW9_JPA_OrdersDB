@@ -12,29 +12,20 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
-    private int number;
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
 //    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
 //    private List<ProductInOrder> items = new ArrayList<>();
     public Order() {}
 
-    public Order(int number, Client client) {
+    public Order(Client client) {
         this.client = client;
-        this.number = number;
     }
 
     public long getId() {
         return id;
-    }
-    public int getNumber() {
-        return number;
-    }
-    public void setNumber(int number) {
-        this.number = number;
     }
     public Client getClient() {
         return client;
@@ -45,6 +36,6 @@ public class Order {
     @Override
     public String toString(){
         return "Order{id="+id+", " +
-                "number="+number+"}";
+                "client="+client+"}";
     }
 }

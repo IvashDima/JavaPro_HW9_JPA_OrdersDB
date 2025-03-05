@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClientTest extends BaseTest {
 
-    private Client saveTestClient(final String name, final String phone) {
+    private Client saveTestClient(final String name, final int phone) {
         Callable<Client> c = new Callable<Client>() {
             public Client call() throws Exception {
                 Client client = new Client(name, phone);
@@ -28,7 +28,7 @@ public class ClientTest extends BaseTest {
     }
     @Test
     public void testPersistAndFind() {
-        Client client = saveTestClient("Dmytro", "0661234567");
+        Client client = saveTestClient("Dmytro", 0661234567);
         long id = client.getId();
         assertTrue(id > 0);
         // find existing
@@ -46,15 +46,15 @@ public class ClientTest extends BaseTest {
     }
     @Test(expected = RuntimeException.class)
     public void testNullable() {
-        saveTestClient("Nikolay", null);
+        saveTestClient("Nikolay", 0);
     }
 
     @Test
     public void testMerge() {
-        final Client client = saveTestClient("Ivan", "0501111111");
+        final Client client = saveTestClient("Ivan", 0501111111);
         long id = client.getId();
         performTransaction(() -> {
-            client.setPhone("0502222222");
+            client.setPhone(0502222222);
             return null;
         });
         em.clear();
@@ -64,7 +64,7 @@ public class ClientTest extends BaseTest {
 
     @Test
     public void testRemove() {
-        final Client client = saveTestClient("Ivan", "0501111111");
+        final Client client = saveTestClient("Ivan", 0501111111);
         final long id = client.getId();
 
         performTransaction(() -> {
@@ -80,7 +80,7 @@ public class ClientTest extends BaseTest {
     public void testSelect() {
         performTransaction(() -> {
             for (int i = 0; i < 10; i++) {
-                Client client = new Client("Name" + i, "050111111" + i);
+                Client client = new Client("Name" + i, 050111111 + i);
                 em.persist(client);
             }
             return null;
