@@ -3,6 +3,7 @@ package org.example;
 import org.example.dao.ClientDAO;
 import org.example.dao.OrderDAO;
 import org.example.dao.ProductDAO;
+import org.example.dao.ProductInOrderDAO;
 
 import static org.example.src.Enum.em;
 import static org.example.src.Enum.emf;
@@ -14,6 +15,7 @@ public class Main {
         ClientDAO clientDAO = new ClientDAO();
         OrderDAO orderDAO = new OrderDAO();
         ProductDAO productDAO = new ProductDAO();
+        ProductInOrderDAO productInOrderDAO = new ProductInOrderDAO();
 
         Scanner sc = new Scanner(System.in);
         try{
@@ -55,7 +57,8 @@ public class Main {
                             orderDAO.addOrder(sc);
                             break;
                         case "8":
-                            orderDAO.viewOrders();
+                            orderDAO.viewOrders(); //productInOrderDAO
+                            productInOrderDAO.viewProductsInOrder();
                             break;
                         default:
                             return;

@@ -48,9 +48,10 @@ public class ProductInOrder {
     }
     @Override
     public String toString(){
-        return "Product{id="+id+", " +
+        return "ProductInOrder{id="+id+"," +
+                "order="+order.getId()+", " +
                 "count="+count+", " +
-                "order="+order+", " +
-                "product="+product+"}";
+                "product="+product.getName()+": "+
+                product.getPrice()+"}";
     }
 }

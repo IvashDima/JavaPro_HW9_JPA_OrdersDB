@@ -16,12 +16,16 @@ public class Order {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
+    @Column(nullable = true)
+    private double totalPrice;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<ProductInOrder> items = new ArrayList<>();
     public Order() {}
 
-    public Order(Client client) {
+    public Order(Client client) { //, double totalPrice
         this.client = client;
+//        this.totalPrice = totalPrice;
     }
 
     public void addProductInOrder(ProductInOrder item) {
@@ -30,7 +34,6 @@ public class Order {
             item.setOrder(this);
         }
     }
-
     public long getId() {
         return id;
     }
@@ -40,11 +43,16 @@ public class Order {
     public void setClient(Client client) {
         this.client = client;
     }
+    public double getTotalPrice() { return totalPrice; }
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public String toString(){
         return "Order{id="+id+", " +
-                "client="+client+", " +
-//                "items="+items+
+                "client="+client.getName()+", " +
+                "totalPrice="+totalPrice+
                 "}";
     }
 }

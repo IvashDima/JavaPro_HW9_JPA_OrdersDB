@@ -18,8 +18,6 @@ public class Client {
     @Column(nullable = false)
     private int phone;
 
-//    @OneToOne(mappedBy = "client")
-//    private Order order;
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
@@ -51,12 +49,6 @@ public class Client {
         this.phone = phone;
     }
 
-//    public void addOrder(Order order) {
-//        if ( ! orders.contains(order)) {
-//            orders.add(order);
-//            orders.setClient(this);
-//        }
-//    }
     public Order getOrder(int index) {
         return orders.get(index);
     }
