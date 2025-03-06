@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClientTest extends BaseTest {
 
-    private Client saveTestClient(final String name, final int phone) {
+    private Client saveTestClient(final String name, final Integer phone) {
         Callable<Client> c = new Callable<Client>() {
             public Client call() throws Exception {
                 Client client = new Client(name, phone);
@@ -46,25 +46,25 @@ public class ClientTest extends BaseTest {
     }
     @Test(expected = RuntimeException.class)
     public void testNullable() {
-        saveTestClient("Nikolay", 0);
+        saveTestClient("Nikolay", null);
     }
 
     @Test
     public void testMerge() {
-        final Client client = saveTestClient("Ivan", 0501111111);
+        final Client client = saveTestClient("Ivan", 501111111);
         long id = client.getId();
         performTransaction(() -> {
-            client.setPhone(0502222222);
+            client.setPhone(502222222);
             return null;
         });
         em.clear();
         Client other = em.find(Client.class, id);
-        assertEquals("0507654321", other.getPhone());
+        assertEquals(502222222, other.getPhone());
     }
 
     @Test
     public void testRemove() {
-        final Client client = saveTestClient("Ivan", 0501111111);
+        final Client client = saveTestClient("Ivan", 501111111);
         final long id = client.getId();
 
         performTransaction(() -> {
@@ -80,7 +80,7 @@ public class ClientTest extends BaseTest {
     public void testSelect() {
         performTransaction(() -> {
             for (int i = 0; i < 10; i++) {
-                Client client = new Client("Name" + i, 050111111 + i);
+                Client client = new Client("Name" + i, 50111111 + i);
                 em.persist(client);
             }
             return null;
@@ -89,28 +89,21 @@ public class ClientTest extends BaseTest {
         List<Client> resultList;
 
         Query query = em.createQuery("SELECT c FROM Client c WHERE c.phone >= :phone");
-        query.setParameter("phone", "050111111");
+        query.setParameter("phone", 50111111);
         resultList = (List<Client>) query.getResultList(); // type cast!!!
         assertEquals(10, resultList.size());
 
         TypedQuery<Client> otherQuery = em.createQuery(
                 "SELECT c FROM Client c WHERE c.phone >= :phone", Client.class);
-        otherQuery.setParameter("phone", "050111111");
+        otherQuery.setParameter("phone", 50111111);
         resultList = otherQuery.getResultList(); // no type cast
         assertEquals(10, resultList.size());
 
         TypedQuery<Long> countQuery = em.createQuery(
                 "SELECT COUNT(c) FROM Client c WHERE c.phone >= :phone", Long.class);
-        countQuery.setParameter("phone", "050111111");
+        countQuery.setParameter("phone", 50111111);
         long count = countQuery.getSingleResult();
         assertEquals(10, count);
-
-        // select properties
-//        TypedQuery<CustomClient> propQuery = em
-//                .createQuery("SELECT NEW academy.prog.simple.CustomClient(c.name, c.age) FROM Client c WHERE c.id = 1",
-//                        CustomClient.class);
-//        CustomClient res = propQuery.getSingleResult();
-//        assertNotNull(res);
 
         Query propQuery2 = em
                 .createQuery("SELECT c.name, c.phone FROM Client c WHERE c.id = 1");
