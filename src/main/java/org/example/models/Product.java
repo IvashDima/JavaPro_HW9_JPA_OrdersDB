@@ -1,6 +1,8 @@
 package org.example.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Products")
@@ -13,6 +15,8 @@ public class Product {
     private String name;
     @Column(nullable = false)
     private double price;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductInOrder> items = new ArrayList<>();
     public Product() {}
 
     public Product(String name, double price) {
@@ -20,6 +24,12 @@ public class Product {
         this.price = price;
     }
 
+    public void addProductInOrder(ProductInOrder item) {
+        if ( ! items.contains(item)) {
+            items.add(item);
+            item.setProduct(this);
+        }
+    }
     public long getId() {
         return id;
     }

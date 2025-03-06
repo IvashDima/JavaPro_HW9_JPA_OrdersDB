@@ -16,12 +16,19 @@ public class Order {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-//    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-//    private List<ProductInOrder> items = new ArrayList<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<ProductInOrder> items = new ArrayList<>();
     public Order() {}
 
     public Order(Client client) {
         this.client = client;
+    }
+
+    public void addProductInOrder(ProductInOrder item) {
+        if ( ! items.contains(item)) {
+            items.add(item);
+            item.setOrder(this);
+        }
     }
 
     public long getId() {
@@ -36,6 +43,8 @@ public class Order {
     @Override
     public String toString(){
         return "Order{id="+id+", " +
-                "client="+client+"}";
+                "client="+client+", " +
+//                "items="+items+
+                "}";
     }
 }
