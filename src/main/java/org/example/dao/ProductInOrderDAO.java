@@ -10,8 +10,10 @@ import static org.example.src.Enum.em;
 
 public class ProductInOrderDAO {
 
-    public void viewProductsInOrder() {
-        Query query = em.createQuery("SELECT p FROM ProductInOrder p ", ProductInOrder.class);
+    public void viewProductsInOrder(Order order) {
+        Query query = em.createQuery("SELECT p FROM ProductInOrder p WHERE p.order = :order",
+                ProductInOrder.class);
+        query.setParameter("order", order);
         List<ProductInOrder> list = (List<ProductInOrder>) query.getResultList();
 
         for (ProductInOrder p : list)

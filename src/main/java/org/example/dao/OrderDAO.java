@@ -45,12 +45,13 @@ public class OrderDAO {
             em.getTransaction().rollback();
         }
     }
-    public void viewOrders() {
+    public void viewOrders(ProductInOrderDAO productInOrderDAO) {
         Query query = em.createQuery("SELECT o FROM Order o", Order.class);
         List<Order> list = (List<Order>) query.getResultList();
 
         for (Order order : list) {
             System.out.println(order);
+            productInOrderDAO.viewProductsInOrder(order);
         }
     }
 }

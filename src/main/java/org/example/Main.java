@@ -57,8 +57,7 @@ public class Main {
                             orderDAO.addOrder(sc);
                             break;
                         case "8":
-                            orderDAO.viewOrders(); //productInOrderDAO
-                            productInOrderDAO.viewProductsInOrder();
+                            orderDAO.viewOrders(productInOrderDAO); //productInOrderDAO
                             break;
                         default:
                             return;
